@@ -36,6 +36,24 @@ Check out our documentation for instructions on how to install and run Seerr:
 
 https://docs.seerr.dev/getting-started/
 
+## GitHub Container Registry
+
+This fork can publish test images to GitHub Container Registry from the `develop` branch via `.github/workflows/ghcr.yml`.
+
+Images are published to:
+
+`ghcr.io/jalim/seerr:develop`
+
+Each publish also gets an immutable commit tag:
+
+`ghcr.io/jalim/seerr:sha-<git-sha>`
+
+To use these images in Kubernetes:
+
+1. Enable Actions read/write access to packages in the repository settings.
+2. Make the package public in the GitHub Packages UI, or create an image pull secret for GHCR.
+3. Reference the image in your manifests, for example `ghcr.io/jalim/seerr:develop`.
+
 ## Preview
 
 <img src="./public/preview.jpg" alt="Seerr application preview" />
