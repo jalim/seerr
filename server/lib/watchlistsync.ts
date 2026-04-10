@@ -156,6 +156,24 @@ class WatchlistSync {
           userId: user.id,
           mediaTitle: mediaItem.title,
         });
+
+        if (user.settings?.watchlistSyncRemove) {
+          try {
+            await plexTvApi.removeFromWatchlist(mediaItem.ratingKey);
+            logger.info('Removed item from Plex watchlist after request', {
+              label: 'Watchlist Sync',
+              userId: user.id,
+              mediaTitle: mediaItem.title,
+            });
+          } catch (removeError) {
+            logger.warn('Failed to remove item from Plex watchlist', {
+              label: 'Watchlist Sync',
+              userId: user.id,
+              mediaTitle: mediaItem.title,
+              errorMessage: removeError.message,
+            });
+          }
+        }
       } catch (e) {
         if (!(e instanceof Error)) {
           continue;

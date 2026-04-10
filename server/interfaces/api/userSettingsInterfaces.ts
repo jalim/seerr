@@ -18,6 +18,7 @@ export interface UserSettingsGeneralResponse {
   globalTvQuotaDays?: number;
   watchlistSyncMovies?: boolean;
   watchlistSyncTv?: boolean;
+  watchlistSyncRemove?: boolean;
 }
 
 export type NotificationAgentTypes = Record<NotificationAgentKey, number>;

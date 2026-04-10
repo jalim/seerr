@@ -73,6 +73,9 @@ const messages = defineMessages(
     plexwatchlistsyncseries: 'Auto-Request Series',
     plexwatchlistsyncseriestip:
       'Automatically request series on your <PlexWatchlistSupportLink>Plex Watchlist</PlexWatchlistSupportLink>',
+    plexwatchlistsyncremove: 'Remove from Watchlist After Request',
+    plexwatchlistsyncremovetip:
+      'Automatically remove items from your Plex Watchlist after they have been requested',
   }
 );
 
@@ -169,6 +172,7 @@ const UserGeneralSettings = () => {
           tvQuotaDays: data?.tvQuotaDays,
           watchlistSyncMovies: data?.watchlistSyncMovies,
           watchlistSyncTv: data?.watchlistSyncTv,
+          watchlistSyncRemove: data?.watchlistSyncRemove,
         }}
         validationSchema={UserGeneralSettingsSchema}
         enableReinitialize
@@ -191,6 +195,7 @@ const UserGeneralSettings = () => {
               tvQuotaDays: tvQuotaEnabled ? values.tvQuotaDays : null,
               watchlistSyncMovies: values.watchlistSyncMovies,
               watchlistSyncTv: values.watchlistSyncTv,
+              watchlistSyncRemove: values.watchlistSyncRemove,
             });
 
             if (currentUser?.id === user?.id && setLocale) {
@@ -629,6 +634,43 @@ const UserGeneralSettings = () => {
                           setFieldValue(
                             'watchlistSyncTv',
                             !values.watchlistSyncTv
+                          );
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+              {hasPermission(
+                [
+                  Permission.AUTO_REQUEST,
+                  Permission.AUTO_REQUEST_MOVIE,
+                  Permission.AUTO_REQUEST_TV,
+                ],
+                { type: 'or' }
+              ) &&
+                user?.userType === UserType.PLEX &&
+                (values.watchlistSyncMovies || values.watchlistSyncTv) && (
+                  <div className="form-row">
+                    <label
+                      htmlFor="watchlistSyncRemove"
+                      className="checkbox-label"
+                    >
+                      <span>
+                        {intl.formatMessage(messages.plexwatchlistsyncremove)}
+                      </span>
+                      <span className="label-tip">
+                        {intl.formatMessage(messages.plexwatchlistsyncremovetip)}
+                      </span>
+                    </label>
+                    <div className="form-input-area">
+                      <Field
+                        type="checkbox"
+                        id="watchlistSyncRemove"
+                        name="watchlistSyncRemove"
+                        onChange={() => {
+                          setFieldValue(
+                            'watchlistSyncRemove',
+                            !values.watchlistSyncRemove
                           );
                         }}
                       />

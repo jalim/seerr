@@ -72,6 +72,9 @@ export class UserSettings {
   @Column({ nullable: true })
   public watchlistSyncTv?: boolean;
 
+  @Column({ nullable: true })
+  public watchlistSyncRemove?: boolean;
+
   @Column({
     type: 'text',
     nullable: true,

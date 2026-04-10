@@ -380,6 +380,13 @@ class PlexTvAPI extends ExternalAPI {
     }
   }
 
+  public async removeFromWatchlist(ratingKey: string): Promise<void> {
+    await this.axios.delete('/actions/watchlist', {
+      params: { ratingKey },
+      baseURL: 'https://discover.provider.plex.tv',
+    });
+  }
+
   public async pingToken() {
     try {
       const response = await this.axios.get('/api/v2/ping', {
